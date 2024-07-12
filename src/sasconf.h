@@ -132,7 +132,7 @@
 #endif
 
 /* 
- * If the platform is not recognized above, select some resonable default.
+ * If the platform is not recognized above, select some reasonable default.
  */
 #ifndef __SAS_BASE_ADDRESS
 # ifdef __GNUC__
@@ -149,14 +149,18 @@
 
 #define __SAS_TEMP_FREE    (__SAS_BASE_ADDRESS + RegionSize + 4*SegmentSize)
 
-
 #ifndef __SAS_SHMAP_MAX
 # define __SAS_SHMAP_MAX SegmentSize
 #endif
 
+// In case platform config does not define __WORDSIZE
 #ifndef __WORDSIZE_64
 # ifndef __WORDSIZE_32
-#  define __WORDSIZE_32
+#  ifdef __LP64__
+#    define __WORDSIZE_64
+#  else
+#    define __WORDSIZE_32
+#  endif
 # endif
 #endif
 
