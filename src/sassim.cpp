@@ -124,12 +124,7 @@ unsigned long logTable[maxLog2] = { 0x1000,	// 00 = 004k
 typedef struct
 {
 #ifdef __WORDSIZE_64
-#if defined (__x86_64__) || \
-    (defined (__LITTLE_ENDIAN__) && defined (__powerpc64__)) \
-    || defined (__aarch64__) || defined (__arm__) \
-    || ((__BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__) && defined(__mips64)) \
-    || defined (__loongarch__) \
-    || defined (__riscv)
+#if (__BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__)
   unsigned long offset:56;
   unsigned int size:8;
 #else
@@ -137,12 +132,12 @@ typedef struct
   unsigned long offset:56;
 #endif
 #else
-#if __BYTE_ORDER == __BIG_ENDIAN
-  unsigned int size:8;
+#if (__BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__)
   unsigned int offset:24;
+  unsigned int size:8;
 #else
-  unsigned int offset:24;
   unsigned int size:8;
+  unsigned int offset:24;
 #endif
 #endif
 } logNodeType;
